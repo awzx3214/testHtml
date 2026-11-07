@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <title>立冬神秘礼物</title>
+    <meta name="description" content="立冬快乐
+愿你三冬暖
+有人惦记你
+记得添衣保暖
+想把温暖送给你
+喝杯热茶暖暖心
+愿你手暖心也暖
+寒风吹不散好运
+每一天都元气满满
+多一点甜少一点累
+愿所有烦恼都融化
+好好吃饭早点睡
+把快乐悄悄送给你
+愿你的冬天有拥抱
+愿所有美好如约而至
+平安喜乐顺顺利利
+这个冬天也要开心">
+
+    <link rel="stylesheet" href="https://cdn-img2.pp5.top/template/css/main.css?v1006">
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3300257_wbsl9bthm4.css">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #f6f6f6;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        #container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .iframe-div {
+            width: 100%;
+            height: 100vh;
+            border: 0;
+            display: block;
+            background: transparent;
+        }
+
+        #seo-content {
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            opacity: 0.01;
+            pointer-events: none;
+        }
+
+        .page-tips {
+            position: fixed;
+            left: 0;
+            bottom: 6px;
+            width: 100%;
+            text-align: center;
+            font-size: 11px;
+            color: rgba(255,255,255,0.28);
+            z-index: 2;
+            pointer-events: none;
+            letter-spacing: 0.5px;
+        }
+
+        #moreLink,
+        #makeLink,
+        #midAutumnLink {
+            position: fixed !important;
+            right: 12px !important;
+            width: 42px !important;
+            height: 42px !important;
+            border: 2px solid rgba(255,255,255,.9) !important;
+            border-radius: 50% !important;
+            background: rgba(0,0,0,.28) !important;
+            color: #fff !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            z-index: 999999 !important;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            transform: translateY(8px);
+            transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.floating-controls-ready #moreLink,
+        body.floating-controls-ready #makeLink,
+        body.floating-controls-ready #midAutumnLink {
+            opacity: 0.92 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+            transform: translateY(0);
+            transition-delay: 0s;
+        }
+
+        #moreLink { bottom: 72px !important; }
+        #makeLink { bottom: 126px !important; }
+        #midAutumnLink { bottom: 180px !important; display: none !important; }
+
+        #moreLink:active,
+        #makeLink:active,
+        #midAutumnLink:active {
+            opacity: 0.7 !important;
+        }
+
+        #moreLink i,
+        #makeLink i {
+            font-size: 20px !important;
+            line-height: 1 !important;
+            display: inline-block !important;
+        }
+
+        #musicBtn {
+            position: fixed !important;
+            left: 12px !important;
+            bottom: 72px !important;
+            width: 42px !important;
+            height: 42px !important;
+            z-index: 999999 !important;
+            /* Hide the control UI only; keep the audio element and playback logic intact. */
+            display: none !important;
+            align-items: center !important;
+            justify-content: center !important;
+            -webkit-tap-highlight-color: transparent;
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }
+
+        #musicBtn img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            animation: musicRotate 6s linear infinite;
+            animation-play-state: paused;
+        }
+
+        #musicBtn.playing img {
+            animation-play-state: running;
+        }
+
+        #videoBlessingBtn {
+            position: fixed !important;
+            left: 12px !important;
+            bottom: 126px !important;
+            width: 42px !important;
+            height: 42px !important;
+            border-radius: 50% !important;
+            background: rgba(0,0,0,.34) !important;
+            color: #fff !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            z-index: 999999 !important;
+            display: none;
+            align-items: center !important;
+            justify-content: center !important;
+            -webkit-tap-highlight-color: transparent;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        #videoBlessingMask {
+            position: fixed;
+            inset: 0;
+            z-index: 1000000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,.72);
+            padding: 18px;
+            box-sizing: border-box;
+        }
+
+        #videoBlessingBox {
+            position: relative;
+            width: min(92vw, 420px);
+            max-height: 82vh;
+        }
+
+        #videoBlessingPlayer {
+            width: 100%;
+            max-height: 82vh;
+            border-radius: 12px;
+            background: #000;
+            display: block;
+        }
+
+        #videoBlessingClose {
+            position: absolute;
+            top: -14px;
+            right: -10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 0;
+            background: rgba(255,255,255,.94);
+            color: #111;
+            font-size: 22px;
+            line-height: 32px;
+        }
+
+        .open-box[style*="display: none"] {
+            pointer-events: none !important;
+        }
+
+        [style*="display:none"].open-box,
+        [style*="display: none"].open-box {
+            pointer-events: none !important;
+        }
+
+        @keyframes musicRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="seo-content">
+    <h1>立冬神秘礼物</h1>
+    <p>立冬快乐
+愿你三冬暖
+有人惦记你
+记得添衣保暖
+想把温暖送给你
+喝杯热茶暖暖心
+愿你手暖心也暖
+寒风吹不散好运
+每一天都元气满满
+多一点甜少一点累
+愿所有烦恼都融化
+好好吃饭早点睡
+把快乐悄悄送给你
+愿你的冬天有拥抱
+愿所有美好如约而至
+平安喜乐顺顺利利
+这个冬天也要开心</p>
+</div>
+
+<div id="container">
+    <iframe id="myframe"
+            class="iframe-div"
+            loading="eager"
+            width="100%"
+            src=""
+            style="width:100%;height:100vh;border:0;display:block;"
+            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+            allow="autoplay; fullscreen"
+            referrerpolicy="no-referrer"></iframe>
+<!--
+    <a id="moreLink" href="https://mp.weixin.qq.com/s/VrH9oKNd84q6Qwj3iu2wcQ" target="_top" aria-label="更多内容">
+        <i class="iconfont icon-gengduo-copy"></i>
+    </a>
+
+    <a id="makeLink" href="#" aria-label="立即制作">
+        <i class="iconfont icon-bianji1"></i>
+    </a>
+-->
+    <a id="moreLink" href="https://mp.weixin.qq.com/s/VrH9oKNd84q6Qwj3iu2wcQ" target="_top" aria-label="更多内容">
+        更多
+    </a>
+
+    <a id="makeLink" href="#" aria-label="立即制作">
+        修改
+    </a>
+    <a id="midAutumnLink" href="https://b.b.wan55.cn/3300" target="_top" aria-label="国庆祝福一键复制">国庆</a>
+    <div id="musicBtn" style="display:block;">
+        <img class="roll" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAQAAAC0jZKKAAAELElEQVRIx72X7UtbdxTHP/femCVprVm2dI4MMZpEUDqYMKJtHG6zCsJ84QZb90KRFTryeuk/kb2WFQpWC7Ww1kKhGwuOleqqebFS5xBifKISdKazUbs8iDd3L3LVqPfmoWw7eZN7zu9+cu7J73fu9wgUMcVNIw04sGMC0sSJEWFOiBa+TyiI7KRNtmhHpSQThPTxOmClmX7ZWexpQFpmWHhSIlipwy979q9WUlM7j3dm0wu7iSxYRZfxnOl8ZWtlrfkAPs+gsFQUrLQSkA0AqexYfDAeTmvn6jX57b12swgg7REUpgqClc/kvty30Y1AbF0uXIhqKei4dFbNe0S4owtW+uVPAdYyA4vjyeIVBuiwDNW//RqAdFcY1gTvZzu91bO4mS0NC2AT79e3VB3PWjysbQ4b2myPloOFzWx7NLQJIPcprcfASh2BXLbdS3u6iO8//M6r5d+je2l6C4CAUnc0Y79sgLVMz2Kh3Gps772jF+tZXMuAbMCfB1aac/t2oEhtE0lPjX5BBhYBZI/SfJhxP8DoRrGdsJqwWt8y6kXHk6MbhzQRFLfshFQ2EKOIbWfg0Zf68UAslQXZqbhzGXcCjMWLHQcwCOBxhrr14uvyWBxyRBFoAxiMF8MCyHtw0Xv/ol5cpbSBqLhlC6yk9HpCvjmqbox/PbSy+olPe9tBOL2SAtmiuEUaAaZ2SsnXVLGdubbivH7v0ZXu3mod9DYAjSINAFMvSypE1lIB0Pvz3MLty9prfv0bgAYRB8DvqVLAh9Z0s6LiqkcropIcInaAhd3ywBBZ+uq8ll8l2UVMAImy2g5AeMFo0PKrJJNYFi3PnidfFPzDRdIA1rJ/oMoU39byq6S0SBzAZSyDCUB15R/rWn6VFBeJAbxrLoMJgNl4LaLlV0kxkQjAhVPlYa96Esl5zV6okiIicwDeM6XgXiTNBoDTUofr+qz2GpU0ZxCiSlK21Jq9Jv1u0WLtc9e8/izhsoefAZySbsz8qNm0vKZaM0hJIWoAJugCvz28qo0d/eDzjwT1bT7yFODP3Vs6vdtvB2Ai1zZDAL32aklr6YOuLz4WDkRCZUWhUlVLvTlwCEQQotIymMWg4+TSK7XdRw7ub5uFwEGHWQRpWYjuv/OGAS6d7TghWS+/n3/1+Okvf+lj2y2q3BoGFSw8keYBhuptx05gKLKb2f9Mz1y4p4+1iTfrAaT5nKxVq6fU8a1sgOktXxGlrmeT7pYqkPb4Jidp1QyFJYIALVU/1L0K9oEzp94I7ivlg0cXpqQRgE7bQ5etrJZkEx+6ut4AkEYOVXIeQrgj3QXwWWea2i2lYtstM00+K4A0lq+Q/z3hfUu4nR/7v0YFODnchLcnX86mF3afy/Cm5DKeM/lOe8+UPdyo8P9iHDuAu+nCV2CAnOSnsgfII/hXGnn/AachjVCELR1AAAAAAElFTkSuQmCC">
+        <audio id="music" src="" loop="loop" playsinline webkit-playsinline x5-playsinline preload="none"></audio>
+    </div>
+    <div id="videoBlessingBtn">视频</div>
+    <div id="videoBlessingMask">
+        <div id="videoBlessingBox">
+            <button id="videoBlessingClose" type="button">×</button>
+            <video id="videoBlessingPlayer" controls playsinline webkit-playsinline x5-playsinline preload="metadata"></video>
+        </div>
+    </div>
+</div>
+
+<div class="page-tips">内容仅供展示与娱乐</div>
+
+<script>
+window.templateData = {"id":1613,"domainId":34,"categoryId":1,"templateId":195,"msgId":0,"nid":"9922","title":"立冬神秘礼物","ftitle":"有人为你藏了一份立冬惊喜～","ftitle2":"","ctitle":"","mtitle":"","content":"立冬快乐\r\n愿你三冬暖\r\n有人惦记你\r\n记得添衣保暖\r\n想把温暖送给你\r\n喝杯热茶暖暖心\r\n愿你手暖心也暖\r\n寒风吹不散好运\r\n每一天都元气满满\r\n多一点甜少一点累\r\n愿所有烦恼都融化\r\n好好吃饭早点睡\r\n把快乐悄悄送给你\r\n愿你的冬天有拥抱\r\n愿所有美好如约而至\r\n平安喜乐顺顺利利\r\n这个冬天也要开心","nextContent":"","sectionContent":"","customData":[],"coverImg":"","backgroundImg":"","video":"","confirmImg":"","opacity":100,"music":"","printIcon":"","color":"#33221e","fontSize":1,"fontSpeed":1,"btnTitle1":"","btnTitle2":"","password":"","status":1,"risk":0,"txtType":0,"cpNid":"","toNid":"","goNid":"","sort":100,"note":"确认收下礼物，祝福语描绘爱心后绽放为可拖动缩放的三维文字墙","desc":"确认收下礼物，祝福语描绘爱心后绽放为可拖动缩放的三维文字墙","views":122889,"create_time":1793362315,"update_time":1793605456,"templateInfo":{"id":195,"path":"template/ze/halloween-heart-gift","viewport":"","pcWidth":"","autoplay":1,"autobtn":1},"msgHtml":"","typeId":1,"versionId":"2026110718","jump_more":"https://mp.weixin.qq.com/s/VrH9oKNd84q6Qwj3iu2wcQ","jump_make":"weixin://dl/business/?appid=wx92ef5038fdff5bb5&path=pages/index/index&query=channel","4041":true,"isAllowedDomain1":1,"pageViewStatsEnabled":1};
+
+(function preloadA324Music() {
+    var data = window.templateData || {};
+    if (String(data.distributorAlias || '').toUpperCase() !== 'A324') return;
+
+    var audio = document.getElementById('music');
+    if (!audio) return;
+
+    var stableMusicUrl = new URL(
+        '/a324-audio/national-day-20260926.mp3',
+        window.location.origin
+    ).href;
+
+    data.music = stableMusicUrl;
+    audio.preload = 'auto';
+    audio.autoplay = true;
+    audio.setAttribute('autoplay', 'autoplay');
+    audio.src = stableMusicUrl;
+
+    try { audio.load(); } catch (e) {}
+
+    var playNow = function () {
+        try {
+            var result = audio.play();
+            if (result && typeof result.catch === 'function') {
+                result.catch(function () {});
+            }
+        } catch (e) {}
+    };
+
+    var unlockWithWeChat = function () {
+        try {
+            if (typeof WeixinJSBridge !== 'undefined') {
+                WeixinJSBridge.invoke('getNetworkType', {}, playNow);
+                return;
+            }
+        } catch (e) {}
+        playNow();
+    };
+
+    document.addEventListener('WeixinJSBridgeReady', unlockWithWeChat, false);
+    window.addEventListener('pageshow', unlockWithWeChat);
+    setTimeout(unlockWithWeChat, 0);
+    setTimeout(unlockWithWeChat, 300);
+    setTimeout(unlockWithWeChat, 1000);
+})();
+</script>
+
+<script>
+(function (global) {
+    'use strict';
+
+    const texts = [
+        '国庆节快乐呀~',
+        '山河锦绣，国泰民安~',
+        '盛世华诞，举国同庆~',
+        '愿祖国繁荣昌盛~',
+        '红旗漫卷，山河无恙~',
+        '愿山河永固，盛世长安~',
+        '金秋十月，喜迎国庆~',
+        '家国同庆，幸福安康~',
+        '神州大地，繁花似锦~',
+        '愿你国庆开心如意~',
+        '国庆假期快乐呀~',
+        '愿好运与国庆同在~',
+        '山河壮丽，岁月安好~',
+        '锦绣中国，盛世华章~',
+        '愿所行皆坦途~',
+        '愿家国皆安，万事顺遂~',
+        '祝你前程似锦~',
+        '国庆喜乐，万事胜意~',
+        '祖国生日快乐~',
+        '愿国泰民安，山河无恙~'
+    ];
+
+    const greetings = [
+        '国庆佳节到，祝你假期愉快，平安喜乐，万事顺意！',
+        '盛世华诞，举国同庆，愿祖国繁荣昌盛，愿你幸福安康！',
+        '金秋十月迎国庆，愿山河锦绣，家国安宁，好运常伴！',
+        '国庆快乐！愿你眼里有光、心中有爱，所行皆坦途！',
+        '红旗飘扬，山河壮丽，祝福祖国，也祝你前程似锦！',
+        '家国同庆，岁月安好，愿这个国庆假期装满快乐与惊喜！'
+    ];
+
+    const domains = ['5b5b.top'];
+
+    const works = [
+        ['国庆宇宙爱心', 'A272'],
+        ['国庆满屏祝福', 'A324'],
+        ['国庆3D飘屏祝福', 'A325'],
+        ['国庆3D飘屏祝福', 'A359'],
+        ['国庆3D飘屏祝福', 'A385'],
+        ['国庆浪漫礼物', 'A386'],
+        ['国庆宇宙爱心', 'A387'],
+        ['国庆快乐🎉', 'A388'],
+        ['国庆弹窗文字', 'A389'],
+        ['国庆超美爱心', 'A392'],
+        ['国庆节备忘录', 'A393'],
+        ['国庆3D飘屏祝福', 'A397'],
+        ['国庆3D飘屏祝福', 'A422'],
+        ['国庆换头像', 'A428'],
+        ['国庆爱心飘屏', 'A429'],
+        ['国庆满屏祝福', 'A432'],
+        ['国庆爱心代码', 'A433']
+    ];
+
+    function pick(items) {
+        return items[Math.floor(Math.random() * items.length)];
+    }
+
+    function generate() {
+        const greeting = pick(greetings);
+        const text = pick(texts);
+        const work = pick(works);
+        const domain = pick(domains);
+        const link = domain + '/' + work[1];
+
+        return [
+            greeting,
+            '点击爱心中间代码查看国庆祝福',
+            '[玫瑰][爱心][爱心][玫瑰][玫瑰][玫瑰][爱心][爱心][玫瑰]',
+            '[爱心][爱心][爱心][爱心][玫瑰][爱心][爱心][爱心][爱心]',
+            '[爱心][爱心][爱心][爱心][爱心][爱心][爱心][爱心][爱心]',
+            '[玫瑰][爱心]' + text + '[爱心][玫瑰]',
+            '[玫瑰][爱心]' + link + '[爱心][玫瑰]',
+            '[玫瑰][玫瑰][爱心][爱心][爱心][爱心][爱心][玫瑰][玫瑰]',
+            '[玫瑰][玫瑰][玫瑰][爱心][爱心][爱心][玫瑰][玫瑰][玫瑰]',
+            '[玫瑰][玫瑰][玫瑰][玫瑰][爱心][玫瑰][玫瑰][玫瑰][玫瑰]'
+        ].join('\n');
+    }
+
+    global.NationalDayCopyPool = Object.freeze({
+        texts: Object.freeze(texts.slice()),
+        greetings: Object.freeze(greetings.slice()),
+        domains: Object.freeze(domains.slice()),
+        works: Object.freeze(works.map(function (item) { return Object.freeze(item.slice()); })),
+        generate: generate
+    });
+})(window);
+</script>
+<script>
+(function initGlobalNationalDayClipboard() {
+    // global-national-day-clipboard-v1
+    const forceClipboardEnabled = false;
+    if (!forceClipboardEnabled) return;
+
+    const data = window.templateData || {};
+    const currentNid = String(data.nid || '').trim();
+    const currentTemplateId = String(data.templateId || '').trim();
+    if (currentNid === '3300' || currentTemplateId === '160') return;
+
+    const params = new URLSearchParams(String(window.location.search || ''));
+    const previewMode =
+        params.get('is_demo') === '1' ||
+        params.get('clean') === '1' ||
+        params.get('displayMode') === 'clean' ||
+        params.get('display_mode') === 'clean' ||
+        params.get('mode') === 'clean' ||
+        params.get('hide_btns') === '1' ||
+        params.get('hideBtns') === '1';
+    if (previewMode) return;
+
+    const pool = window.NationalDayCopyPool;
+    if (!pool || typeof pool.generate !== 'function') return;
+    const blessingText = pool.generate();
+
+    let copied = false;
+    let copying = false;
+    let toastShown = false;
+
+    function showCopiedToast() {
+        if (toastShown || !document.body) return;
+        toastShown = true;
+        const toast = document.createElement('div');
+        toast.textContent = '国庆祝福语已复制';
+        toast.style.cssText = [
+            'position:fixed',
+            'left:50%',
+            'top:18%',
+            'transform:translateX(-50%)',
+            'z-index:2147483647',
+            'padding:10px 16px',
+            'border-radius:8px',
+            'background:rgba(0,0,0,.72)',
+            'color:#fff',
+            'font-size:14px',
+            'line-height:1.4',
+            'white-space:nowrap',
+            'pointer-events:none',
+            'box-shadow:0 4px 16px rgba(0,0,0,.2)'
+        ].join(';');
+        document.body.appendChild(toast);
+        setTimeout(function () {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 1800);
+    }
+
+    function legacyCopy() {
+        const textarea = document.createElement('textarea');
+        textarea.value = blessingText;
+        textarea.setAttribute('readonly', 'readonly');
+        textarea.setAttribute('aria-hidden', 'true');
+        textarea.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0;font-size:16px;';
+        document.body.appendChild(textarea);
+        textarea.focus({ preventScroll: true });
+        textarea.select();
+        textarea.setSelectionRange(0, blessingText.length);
+        let success = false;
+        try {
+            success = document.execCommand('copy');
+        } catch (error) {}
+        document.body.removeChild(textarea);
+        return success;
+    }
+
+    function finishCopy(success) {
+        copying = false;
+        if (!success) return false;
+        copied = true;
+        document.documentElement.setAttribute('data-national-day-clipboard', 'copied');
+        showCopiedToast();
+        unbindFirstGesture();
+        return true;
+    }
+
+    function copyBlessing() {
+        if (copied || copying || !document.body) {
+            return Promise.resolve(copied);
+        }
+        copying = true;
+
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(blessingText)
+                .then(function () { return finishCopy(true); })
+                .catch(function () { return finishCopy(legacyCopy()); });
+        }
+
+        return Promise.resolve(finishCopy(legacyCopy()));
+    }
+
+    function onFirstGesture() {
+        if (copied) return;
+        if (copying) {
+            finishCopy(legacyCopy());
+            return;
+        }
+        copyBlessing();
+    }
+
+    function bindFirstGesture() {
+        document.addEventListener('pointerdown', onFirstGesture, true);
+        document.addEventListener('touchstart', onFirstGesture, true);
+        document.addEventListener('click', onFirstGesture, true);
+    }
+
+    function unbindFirstGesture() {
+        document.removeEventListener('pointerdown', onFirstGesture, true);
+        document.removeEventListener('touchstart', onFirstGesture, true);
+        document.removeEventListener('click', onFirstGesture, true);
+    }
+
+    function start() {
+        bindFirstGesture();
+        setTimeout(copyBlessing, 0);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', start, { once: true });
+    } else {
+        start();
+    }
+})();
+</script>
+
+
+<script>
+    // 使用同源 iframe 的 CDN 域名统一维护在这里；新增 CDN 时只需追加域名。
+    window.CDN_TEMPLATE_HOSTS = [
+        'api.se22.cn',
+        'cdnweb.pp5.top',
+        'cdnweb2.pp5.top'
+    ];
+
+    function resolveEnvelopeTemplateEntry(templatePath, nid) {
+        const festivalWorks = ['3372', '3371', '3370', '3323'];
+        if (templatePath === 'template/ze/xinfeng2' && festivalWorks.includes(String(nid))) {
+            return 'festival-stamp-20261103.html';
+        }
+        return 'index.html';
+    }
+
+    // 模板路径已随首屏 HTML 返回，立即并行加载 iframe，避免等待后续公共脚本。
+    (function eagerLoadTemplateFrame() {
+        try {
+            const frame = document.getElementById('myframe');
+            const td = window.templateData || {};
+            const templatePath = td.templateInfo && td.templateInfo.path;
+            if (!frame || !templatePath) return;
+
+            const pageHost = String(window.location.hostname || '').toLowerCase();
+            const iframeHost = window.CDN_TEMPLATE_HOSTS.indexOf(pageHost) !== -1
+                ? window.location.origin
+                : 'https://daima.se22.cn';
+            const iframeUrl = new URL(iframeHost + '/' + templatePath + '/' + resolveEnvelopeTemplateEntry(templatePath, td.nid));
+            const templateVersion = String(td.versionId || Date.now()) +
+                (templatePath === 'template/love/aixin/3d' ? '-no-third-party-v2' : '') +
+                (templatePath === 'template/barrage/3d' ? '-national-day-v3' : '') +
+                (templatePath === 'template/action/emoji' ? '-audio-single-v1' : '') +
+                (templatePath === 'template/ze/xinfeng2' ? '-audio-single-v1' : '') +
+                (templatePath === 'template/ze/winter-frost-window' ? '-audio-delegate-v2' : '') +
+                (templatePath === 'template/ze/zhongqiu-copy' ? '-national-day-v1' : '');
+            iframeUrl.searchParams.set('v', templateVersion);
+            if (templatePath === 'template/barrage/3d' && td.content) {
+                iframeUrl.searchParams.set('content', String(td.content));
+            }
+
+            const search = String(window.location.search || '');
+            const outerParams = new URLSearchParams(search);
+            const isDemo = outerParams.get('is_demo') === '1';
+            const hideButtons = isDemo ||
+                outerParams.get('clean') === '1' ||
+                outerParams.get('displayMode') === 'clean' ||
+                outerParams.get('display_mode') === 'clean' ||
+                outerParams.get('mode') === 'clean' ||
+                outerParams.get('share') === '1' ||
+                outerParams.get('is_share') === '1' ||
+                outerParams.get('recipient') === '1' ||
+                outerParams.get('mp_shared') === '1';
+
+            if (isDemo) iframeUrl.searchParams.set('is_demo', '1');
+            if (hideButtons) iframeUrl.searchParams.set('hide_btns', '1');
+
+            // 将小程序选中的场馆、分区和视角完整传入内层模板。
+            // 只转发明确允许的字段，避免把 3259 外层的其他参数泄漏给模板。
+            [
+                'source', 'tab', 'miniappMode', 'venue', 'section',
+                'depth', 'lateral', 'standing', 'date', 'layout'
+            ].forEach((key) => {
+                if (outerParams.has(key)) {
+                    iframeUrl.searchParams.set(key, outerParams.get(key));
+                }
+            });
+            if (outerParams.has('v')) {
+                iframeUrl.searchParams.set('v', outerParams.get('v'));
+            }
+
+            // template-data-before-iframe-v1
+            // 旧模板会在脚本启动时同步读取 templateDate。必须先写入当前作品，
+            // 再加载 iframe，否则同一模板连续打开不同作品时会先显示上一份内容。
+            localStorage.setItem('templateDate', JSON.stringify(td));
+            frame.dataset.eagerSrc = iframeUrl.toString();
+            frame.src = frame.dataset.eagerSrc;
+        } catch (error) {
+            // 后续 initIframe 会按原流程兜底。
+        }
+    })();
+</script>
+
+<script>
+    // Keep the first tap while the meteor preview's scripts are still loading.
+    const replayEarlyMeteorOpen = (() => {
+        if (window.templateData?.templateInfo?.path !== 'template/love/aixin/meteor-rain') return;
+        const button = document.getElementById('openBtn');
+        if (!button) return;
+        let requested = false;
+        const queueOpen = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (requested) return;
+            requested = true;
+            button.setAttribute('aria-busy', 'true');
+            const prompt = button.querySelector('p');
+            if (prompt) prompt.textContent = '正在打开礼物…';
+        };
+        button.addEventListener('click', queueOpen, true);
+        return (open) => {
+            button.removeEventListener('click', queueOpen, true);
+            if (!requested) return;
+            button.removeAttribute('aria-busy');
+            open();
+        };
+    })();
+</script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+<script src="https://cdn-img2.pp5.top/template/js/mp-v1149.js"></script>
+<script src="https://cdn-img2.pp5.top/template/js/script.js?v1072"></script>
+
+<script>
+    // 达人别名访问独立异步计数，避免预览 HTML 为了统计而禁止 CDN 缓存。
+    (function recordDistributorAliasVisit() {
+        const data = window.templateData || {};
+        const alias = String(data.distributorAlias || '').trim();
+        if (!alias || !/^[A-Za-z0-9_-]{2,32}$/.test(alias)) return;
+
+        const url = '/api/distributorAliasVisit?alias=' + encodeURIComponent(alias);
+        const send = function () {
+            try {
+                fetch(url, {
+                    method: 'GET',
+                    credentials: 'omit',
+                    cache: 'no-store',
+                    keepalive: true
+                }).catch(function () {});
+            } catch (error) {}
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', send, { once: true });
+        } else {
+            send();
+        }
+    })();
+
+    const myFrame = document.getElementById('myframe');
+    const makeLinkBtn = document.getElementById('makeLink');
+    const moreLinkBtn = document.getElementById('moreLink');
+    const midAutumnLinkBtn = document.getElementById('midAutumnLink');
+    const FLOATING_CONTROLS_DELAY_MS = 2000;
+    const floatingControlsRevealAt = Date.now() + FLOATING_CONTROLS_DELAY_MS;
+    let floatingControlsTimer = null;
+    const music = document.getElementById('music');
+    const musicBtn = document.getElementById('musicBtn');
+    const videoBlessingBtn = document.getElementById('videoBlessingBtn');
+    const videoBlessingMask = document.getElementById('videoBlessingMask');
+    const videoBlessingPlayer = document.getElementById('videoBlessingPlayer');
+    const videoBlessingClose = document.getElementById('videoBlessingClose');
+
+    let backBtn = null;
+    let makeBtn = null;
+    let iframeInited = !!(myFrame && myFrame.dataset.eagerSrc);
+    let outerMusicDisabled = false;
+    let outerMusicUrl = '';
+    let outerVoiceUrl = '';
+    let outerVoiceMode = 'once';
+    let outerVoicePlayed = false;
+    let outerVoiceInProgress = false;
+    let outerVideoUrl = '';
+    let outerVideoMode = 'once';
+    let innerPrimaryMediaActive = false;
+    const innerPrimaryMediaPlayers = new Set();
+    let barrage3dReady = false;
+    let barrage3dOpenPending = false;
+    let barrage3dOpenFallbackTimer = null;
+    let openActionCompleted = false;
+    let templateOpenRequested = false;
+    let templateFrameReady = false;
+    let templateReadyProbeTimers = [];
+    // CDN 页面必须加载同源模板，否则模板直接读取 parent.templateData 时会被浏览器拦截。
+    // 原站继续使用原站模板；白名单 CDN 则使用各自当前域名下的 /template 资源。
+    const CDN_TEMPLATE_HOSTS = Array.isArray(window.CDN_TEMPLATE_HOSTS)
+        ? window.CDN_TEMPLATE_HOSTS
+        : ['api.se22.cn', 'cdnweb.pp5.top', 'cdnweb2.pp5.top'];
+    const currentPageHost = String(window.location.hostname || '').toLowerCase();
+    const TEMPLATE_IFRAME_HOST = CDN_TEMPLATE_HOSTS.indexOf(currentPageHost) !== -1
+        ? window.location.origin
+        : 'https://daima.se22.cn';
+    const TEMPLATE_IFRAME_ORIGIN = new URL(TEMPLATE_IFRAME_HOST).origin;
+    const MAKE_LINK_DEFAULT_APPID = 'wx92ef5038fdff5bb5';
+    const MAKE_LINK_SECOND_APPID = 'wxd8cfb3f238c193ba';
+    const MAKE_LINK_SECOND_APP_RATE = 0;
+    const forceMiniProgramView = location.search.indexOf('from_mp=1') > -1;
+    if (forceMiniProgramView) {
+        const hideH5BtnsStyle = document.createElement('style');
+        hideH5BtnsStyle.textContent = '#makeLink,#moreLink,#midAutumnLink{display:none !important;}';
+        document.head.appendChild(hideH5BtnsStyle);
+    }
+
+    function getSafeTemplateData() {
+        return window.templateData || {};
+    }
+
+    function postMessageToTemplate(message) {
+        if (!myFrame || !myFrame.contentWindow) return;
+        myFrame.contentWindow.postMessage(message, TEMPLATE_IFRAME_ORIGIN);
+    }
+
+    function clearTemplateReadyProbes() {
+        templateReadyProbeTimers.forEach(function (timer) {
+            clearTimeout(timer);
+        });
+        templateReadyProbeTimers = [];
+    }
+
+    function sendTemplateOpenSignal() {
+        if (!myFrame || !myFrame.contentWindow) return;
+        postMessageToTemplate('triggerOpen');
+        postMessageToTemplate({ type: 'triggerOpen' });
+    }
+
+    function requestTemplateReady() {
+        if (!myFrame || !myFrame.contentWindow) return;
+        postMessageToTemplate({ type: 'requestTemplateReady' });
+    }
+
+    function scheduleTemplateReadyProbe() {
+        clearTemplateReadyProbes();
+        [0, 250, 750, 1500, 3000].forEach(function (delay) {
+            const timer = setTimeout(function () {
+                if (!templateFrameReady) requestTemplateReady();
+            }, delay);
+            templateReadyProbeTimers.push(timer);
+        });
+    }
+
+    function isMessageFromTemplate(event) {
+        return !!(
+            myFrame &&
+            myFrame.contentWindow &&
+            event.source === myFrame.contentWindow &&
+            event.origin === TEMPLATE_IFRAME_ORIGIN
+        );
+    }
+
+    function getNestedValue(obj, path) {
+        try {
+            return path.split('.').reduce((acc, key) => acc && acc[key], obj);
+        } catch (e) {
+            return undefined;
+        }
+    }
+
+    function firstNotEmpty(list) {
+        for (let i = 0; i < list.length; i++) {
+            const v = list[i];
+            if (v !== undefined && v !== null && String(v).trim() !== '') {
+                return v;
+            }
+        }
+        return '';
+    }
+
+    function getCurrentNid() {
+        const td = getSafeTemplateData();
+        const nid = firstNotEmpty([
+            td.nid,
+            td.data && td.data.nid,
+            td.templateData && td.templateData.nid
+        ]);
+        if (nid) return String(nid).trim();
+
+        const match = String(location.pathname || '').match(/\/([A-Za-z0-9]{4,16})\/?$/);
+        return match ? match[1] : '';
+    }
+
+    function getMakeSourceNid() {
+        const nid = String(getCurrentNid() || '').trim();
+        if (!nid) return '';
+        if (/^[A-Za-z0-9]{6}$/.test(nid)) return nid;
+
+        const numericNid = nid.replace(/[A-Za-z]/g, '');
+        return numericNid || nid;
+    }
+
+    function getDistributorAlias() {
+        const td = getSafeTemplateData();
+        const alias = firstNotEmpty([
+            td.distributorAlias,
+            td.distributor_alias,
+            td.data && (td.data.distributorAlias || td.data.distributor_alias)
+        ]);
+        const normalized = String(alias || '').trim().toUpperCase();
+        return /^[A-Z0-9]{2,32}$/.test(normalized) ? normalized : '';
+    }
+
+    function getRandomUnit() {
+        try {
+            if (window.crypto && window.crypto.getRandomValues) {
+                const values = new Uint32Array(1);
+                window.crypto.getRandomValues(values);
+                return values[0] / 4294967296;
+            }
+        } catch (e) {}
+
+        return Math.random();
+    }
+
+    function pickMakeLinkAppid() {
+        return getRandomUnit() < MAKE_LINK_SECOND_APP_RATE
+            ? MAKE_LINK_SECOND_APPID
+            : MAKE_LINK_DEFAULT_APPID;
+    }
+
+    function getMakeLinkAppid() {
+        return pickMakeLinkAppid();
+    }
+
+    function shouldUseMiniProgramInternalMake() {
+        if (forceMiniProgramView) return true;
+        try {
+            return String((window.templateData && window.templateData.jump_make) || '').indexOf(MAKE_LINK_SECOND_APPID) > -1;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function withMiniProgramSource(url, targetAppid) {
+        if (!url) return url;
+
+        const nid = getMakeSourceNid();
+        const distributorAlias = getDistributorAlias();
+        if (String(url).indexOf('weixin://dl/business/') !== 0) {
+            return url;
+        }
+
+        const appidForJump = String(targetAppid || getMakeLinkAppid() || MAKE_LINK_DEFAULT_APPID);
+
+        try {
+            const parsed = new URL(url);
+            parsed.searchParams.set('appid', appidForJump);
+            const miniQuery = new URLSearchParams(parsed.searchParams.get('query') || '');
+            if (nid && !miniQuery.get('fromHost')) {
+                miniQuery.set('fromHost', location.hostname || '');
+            }
+            if (nid && !miniQuery.get('fromNid')) {
+                miniQuery.set('fromNid', nid);
+            }
+            if (nid && !miniQuery.get('refNid')) {
+                miniQuery.set('refNid', nid);
+            }
+            if (distributorAlias) {
+                miniQuery.set('alias', distributorAlias);
+            }
+            if (miniQuery.toString()) {
+                parsed.searchParams.set('query', miniQuery.toString());
+            }
+            return parsed.toString().replace(/([?&]path=)([^&]+)/, function (_, prefix, value) {
+                try {
+                    return prefix + decodeURIComponent(value);
+                } catch (e) {
+                    return prefix + value;
+                }
+            });
+        } catch (e) {
+            const appid = encodeURIComponent(appidForJump);
+            let nextUrl = String(url);
+            if (/([?&]appid=)[^&]*/.test(nextUrl)) {
+                nextUrl = nextUrl.replace(/([?&]appid=)[^&]*/, '$1' + appid);
+            } else {
+                nextUrl += (nextUrl.indexOf('?') > -1 ? '&' : '?') + 'appid=' + appid;
+            }
+            if (!nid && !distributorAlias) {
+                return nextUrl;
+            }
+            const joiner = nextUrl.indexOf('query=') > -1 ? '%26' : '&query=';
+            let sourceQuery = 'fromHost%3D' + encodeURIComponent(location.hostname || '') +
+                '%26fromNid%3D' + encodeURIComponent(nid) +
+                '%26refNid%3D' + encodeURIComponent(nid);
+            if (distributorAlias) {
+                sourceQuery += '%26alias%3D' + encodeURIComponent(distributorAlias);
+            }
+            return nextUrl + joiner + sourceQuery;
+        }
+    }
+
+    function isDemoMode() {
+        return location.search.indexOf('is_demo=1') > -1;
+    }
+
+    function isCleanMode() {
+        return location.search.indexOf('clean=1') > -1 ||
+            location.search.indexOf('displayMode=clean') > -1 ||
+            location.search.indexOf('display_mode=clean') > -1 ||
+            location.search.indexOf('mode=clean') > -1;
+    }
+
+    function shouldHideButtons() {
+        const params = new URLSearchParams(location.search || '');
+        return isCleanMode() ||
+            isDemoMode() ||
+            params.get('share') === '1' ||
+            params.get('is_share') === '1' ||
+            params.get('recipient') === '1' ||
+            params.get('mp_shared') === '1';
+    }
+
+    function hasMiniProgramRuntimeFlag() {
+        try {
+            if (String(window.__wxjs_environment || '').toLowerCase() === 'miniprogram') {
+                return true;
+            }
+        } catch (e) {}
+
+        const ua = String(navigator.userAgent || '').toLowerCase();
+        return ua.indexOf('miniprogram') > -1 || ua.indexOf('mini program') > -1;
+    }
+
+    function hasMiniProgramBridge() {
+        try {
+            return typeof wx !== "undefined" && !!wx.miniProgram;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function enforceDemoHiddenButtons() {
+        if (!shouldHideButtons()) return;
+        if (document.getElementById('demoHideBtnsStyle')) return;
+
+        const style = document.createElement('style');
+        style.id = 'demoHideBtnsStyle';
+        style.textContent = '#moreLink,#makeLink,#midAutumnLink,#backBtn,#makeBtn{display:none !important;visibility:hidden !important;opacity:0 !important;pointer-events:none !important;}';
+        document.head.appendChild(style);
+    }
+
+    function resolveMusicUrl(td) {
+        return firstNotEmpty([
+            td.music_url,
+            td.music,
+            getNestedValue(td, 'data.music_url'),
+            getNestedValue(td, 'data.music'),
+            getNestedValue(td, 'cate.music_url'),
+            getNestedValue(td, 'cate.music_url_dy'),
+            getNestedValue(td, 'data.cate.music_url'),
+            getNestedValue(td, 'data.cate.music_url_dy')
+        ]);
+    }
+
+    function isHekaCardBiz(td) {
+        const queryFlag = location.search.indexOf('biz=heka_card') > -1;
+        if (queryFlag) return true;
+        const note = parseNoteData(td);
+        return firstNotEmpty([
+            td.biz,
+            td.business,
+            note.biz,
+            note.business
+        ]) === 'heka_card';
+    }
+
+    function parseNoteData(td) {
+        const rawNote = firstNotEmpty([
+            td.note,
+            td.data && td.data.note,
+            getNestedValue(td, 'templateData.note')
+        ]);
+        if (!rawNote) return {};
+        if (typeof rawNote === 'object') return rawNote;
+        try {
+            const parsed = JSON.parse(rawNote);
+            return parsed && typeof parsed === 'object' ? parsed : {};
+        } catch (e) {
+            return {};
+        }
+    }
+
+    function resolveVoiceConfig(td) {
+        if (!isHekaCardBiz(td)) {
+            return {
+                url: '',
+                mode: 'once'
+            };
+        }
+        const note = parseNoteData(td);
+        const voiceUrl = firstNotEmpty([
+            td.voice_url,
+            td.voiceUrl,
+            note.voice_url,
+            note.voiceUrl,
+            note.au,
+            getNestedValue(td, 'data.voice_url'),
+            getNestedValue(td, 'data.voiceUrl')
+        ]);
+        const rawMode = firstNotEmpty([
+            td.voice_mode,
+            td.voiceMode,
+            note.voice_mode,
+            note.voiceMode,
+            note.pm,
+            getNestedValue(td, 'data.voice_mode'),
+            getNestedValue(td, 'data.voiceMode')
+        ]);
+        return {
+            url: voiceUrl,
+            mode: rawMode === 'loop' ? 'loop' : 'once'
+        };
+    }
+
+    function resolveVideoConfig(td) {
+        if (!isHekaCardBiz(td)) return { url: '' };
+        const note = parseNoteData(td);
+        const videoUrl = firstNotEmpty([
+            td.video_url,
+            td.videoUrl,
+            note.video_url,
+            note.videoUrl,
+            note.vu,
+            getNestedValue(td, 'data.video_url'),
+            getNestedValue(td, 'data.videoUrl')
+        ]);
+        const rawMode = firstNotEmpty([
+            td.video_mode,
+            td.videoMode,
+            note.video_mode,
+            note.videoMode,
+            td.voice_mode,
+            td.voiceMode,
+            note.voice_mode,
+            note.voiceMode
+            ,note.pm
+        ]);
+        return {
+            url: videoUrl,
+            mode: rawMode === 'loop' ? 'loop' : 'once'
+        };
+    }
+
+    function logHekaVoiceDebug(stage, extra) {
+        try {
+            const td = getSafeTemplateData();
+            const payload = Object.assign({
+                stage: stage,
+                nid: td && td.nid,
+                isHekaCard: isHekaCardBiz(td),
+                note: parseNoteData(td),
+                voice: resolveVoiceConfig(td),
+                video: resolveVideoConfig(td),
+                music: resolveMusicUrl(td),
+                outerVoiceUrl: outerVoiceUrl,
+                outerVoiceMode: outerVoiceMode,
+                outerVoicePlayed: outerVoicePlayed,
+                outerVoiceInProgress: outerVoiceInProgress,
+                outerVideoUrl: outerVideoUrl,
+                outerVideoMode: outerVideoMode,
+                outerMusicUrl: outerMusicUrl,
+                musicSrc: music ? (music.currentSrc || music.src || '') : '',
+                musicPaused: music ? music.paused : undefined,
+                musicLoop: music ? music.loop : undefined,
+                musicReadyState: music ? music.readyState : undefined
+            }, extra || {});
+            console.log('[heka voice debug]', payload);
+            window.__hekaVoiceDebug = payload;
+        } catch (err) {}
+    }
+
+    function isSameMediaUrl(a, b) {
+        const normalize = function (value) {
+            return String(value || '').replace(/[?#].*$/, '');
+        };
+        return !!normalize(a) && normalize(a) === normalize(b);
+    }
+
+    function getUsableInnerMediaUrl(player) {
+        if (!player) return '';
+
+        let value = '';
+        try {
+            value = player.currentSrc
+                || (player.getAttribute && player.getAttribute('src'))
+                || player.src
+                || '';
+            if (!value && player.querySelector) {
+                const source = player.querySelector('source[src]');
+                value = source ? (source.getAttribute('src') || source.src || '') : '';
+            }
+        } catch (e) {
+            return '';
+        }
+
+        value = String(value || '').trim();
+        if (!value || /(?:^|\/)(?:undefined|null)(?:[?#]|$)/i.test(value)) {
+            return '';
+        }
+        return value;
+    }
+
+    function isTvTemplate() {
+        try {
+            return !!(
+                window.templateData &&
+                window.templateData.templateInfo &&
+                window.templateData.templateInfo.path &&
+                window.templateData.templateInfo.path.indexOf('template/text/tv') !== -1
+            );
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function isInnerAudioTemplate() {
+        try {
+            const path = String(getNestedValue(getSafeTemplateData(), 'templateInfo.path') || '');
+            return path === 'template/ze/winter-meteor-blessings' ||
+                path === 'template/ze/lidong-3d-envelope' ||
+                path === 'template/ze/winter-dj-milk-frog';
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function isBarrage3dTemplate() {
+        try {
+            return String(getNestedValue(getSafeTemplateData(), 'templateInfo.path') || '') === 'template/barrage/3d';
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function initIframe() {
+        if (iframeInited) return;
+
+        const td = getSafeTemplateData();
+
+        if (myFrame && td && td.templateInfo && td.templateInfo.path) {
+            const path = td.templateInfo.path;
+            const versionId = String(td.versionId || Date.now()) +
+                (path === 'template/love/aixin/3d' ? '-no-third-party-v2' : '') +
+                (path === 'template/barrage/3d' ? '-national-day-v3' : '') +
+                (path === 'template/action/emoji' ? '-audio-single-v1' : '') +
+                (path === 'template/ze/xinfeng2' ? '-audio-single-v1' : '') +
+                (path === 'template/ze/winter-frost-window' ? '-audio-delegate-v2' : '') +
+                (path === 'template/ze/zhongqiu-copy' ? '-national-day-v1' : '');
+            const iframeUrl = new URL(TEMPLATE_IFRAME_HOST + '/' + path + '/' + resolveEnvelopeTemplateEntry(path, td.nid));
+            iframeUrl.searchParams.set('v', versionId);
+            if (path === 'template/barrage/3d' && td.content) {
+                iframeUrl.searchParams.set('content', String(td.content));
+            }
+            if (isDemoMode()) {
+                iframeUrl.searchParams.set('is_demo', '1');
+            }
+            if (shouldHideButtons()) {
+                iframeUrl.searchParams.set('hide_btns', '1');
+            }
+            const outerParams = new URLSearchParams(window.location.search || '');
+            [
+                'source', 'tab', 'miniappMode', 'venue', 'section',
+                'depth', 'lateral', 'standing', 'date', 'layout'
+            ].forEach((key) => {
+                if (outerParams.has(key)) {
+                    iframeUrl.searchParams.set(key, outerParams.get(key));
+                }
+            });
+            if (outerParams.has('v')) {
+                iframeUrl.searchParams.set('v', outerParams.get('v'));
+            }
+            myFrame.src = iframeUrl.toString();
+            iframeInited = true;
+        }
+    }
+
+    function isMiniProgramEnv() {
+        return new Promise((resolve) => {
+            let finished = false;
+
+            const done = (value) => {
+                if (finished) return;
+                finished = true;
+                resolve(!!value);
+            };
+
+            try {
+                if (typeof wx === "undefined" || !wx.miniProgram) {
+                    return done(false);
+                }
+
+                const timer = setTimeout(() => done(false), 800);
+
+                wx.miniProgram.getEnv((res) => {
+                    clearTimeout(timer);
+                    done(!!(res && res.miniprogram));
+                });
+            } catch (e) {
+                done(false);
+            }
+        });
+    }
+
+    async function detectMiniProgramEnv() {
+        if (forceMiniProgramView) return true;
+        if (hasMiniProgramRuntimeFlag()) return true;
+
+        const envBySdk = await isMiniProgramEnv();
+        if (envBySdk) return true;
+
+        // 某些机型/容器里 getEnv 可能失效，但桥对象已存在且当前页又明确隐藏了 H5 按钮
+        if (shouldHideButtons() && hasMiniProgramBridge()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function isYunyouyouSharedWork() {
+        const params = new URLSearchParams(location.search);
+        return params.get('mp_shared') === '1' && Number((window.templateData || {}).appid) === 4;
+    }
+
+    function ensureMiniProgramButtons() {
+        if (!backBtn) {
+            backBtn = document.createElement('a');
+            backBtn.id = 'backBtn';
+            backBtn.href = 'javascript:void(0)';
+            backBtn.innerText = isYunyouyouSharedWork() ? '返回首页' : '返回';
+            backBtn.style.cssText = `
+                position: fixed;
+                left: 0;
+                bottom: 72px;
+                width: 38vw;
+                height: 52px;
+                border-radius: 0 26px 26px 0;
+                background: #169BFF;
+                color: #fff;
+                text-decoration: none;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                z-index: 999999;
+                box-shadow: 0 6px 18px rgba(0,0,0,.18);
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+                pointer-events: auto;
+                user-select: none;
+            `;
+            document.body.appendChild(backBtn);
+
+            const handleBack = function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                stopOuterPlayback('mini back');
+                try {
+                    if (typeof wx !== 'undefined' && wx.miniProgram) {
+                        if (isYunyouyouSharedWork()) {
+                            const openHome = function () {
+                                wx.miniProgram.reLaunch({ url: '/pages/index/index' });
+                            };
+                            if (typeof wx.miniProgram.switchTab === 'function') {
+                                wx.miniProgram.switchTab({ url: '/pages/index/index', fail: openHome });
+                            } else {
+                                openHome();
+                            }
+                        } else {
+                            wx.miniProgram.navigateBack();
+                        }
+                    }
+                } catch (e) {}
+            };
+
+            backBtn.addEventListener('click', handleBack);
+            backBtn.addEventListener('touchend', handleBack, { passive: false });
+        }
+
+        if (!makeBtn) {
+            makeBtn = document.createElement('a');
+            makeBtn.id = 'makeBtn';
+            makeBtn.href = 'javascript:void(0)';
+            makeBtn.innerText = isYunyouyouSharedWork() ? '回信' : '制作';
+            makeBtn.style.cssText = `
+                position: fixed;
+                right: 0;
+                bottom: 72px;
+                width: 38vw;
+                height: 52px;
+                border-radius: 26px 0 0 26px;
+                background: #169BFF;
+                color: #fff;
+                text-decoration: none;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                z-index: 999999;
+                box-shadow: 0 6px 18px rgba(0,0,0,.18);
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+                pointer-events: auto;
+                user-select: none;
+            `;
+            document.body.appendChild(makeBtn);
+
+            const handleMake = function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                stopOuterPlayback('mini make');
+                try {
+                    if (typeof wx !== 'undefined' && wx.miniProgram) {
+                        const makeId = window.templateData?.id || '';
+                        const makeTypeId = window.templateData?.typeId || '';
+                        const makeTypeVid = window.templateData?.versionId || '';
+                        let makeUrl = '/pages/make/index?id=' + makeId;
+                        if (makeId !== '') {
+                            makeUrl += '&templateDataId=' + encodeURIComponent(makeId);
+                        }
+                        if (makeTypeId !== '') {
+                            makeUrl += '&typeId=' + makeTypeId;
+                        }
+                        if (makeTypeVid !== '') {
+                            makeUrl += '&typevid=' + makeTypeVid;
+                        }
+                        const searchParams = new URLSearchParams(location.search);
+                        const replaceWorkId = searchParams.get('replace_work_id') || searchParams.get('work_id') || '';
+                        const showCode = searchParams.get('show_code') || '';
+                        if (replaceWorkId !== '') {
+                            makeUrl += '&replace_work_id=' + encodeURIComponent(replaceWorkId);
+                        }
+                        if (showCode !== '') {
+                            makeUrl += '&show_code=' + encodeURIComponent(showCode);
+                        }
+                        const sourceNid = getMakeSourceNid();
+                        const distributorAlias = getDistributorAlias();
+                        if (sourceNid) {
+                            makeUrl += '&fromHost=' + encodeURIComponent(location.hostname || '');
+                            makeUrl += '&fromNid=' + encodeURIComponent(sourceNid);
+                            makeUrl += '&refNid=' + encodeURIComponent(sourceNid);
+                        }
+                        if (distributorAlias) {
+                            makeUrl += '&alias=' + encodeURIComponent(distributorAlias);
+                        }
+
+                        const fallbackJump = function () {
+                            stopOuterPlayback('fallback make');
+                            try {
+                                let homeUrl = '/pages/index/index';
+                                const homeQuery = [];
+                                if (sourceNid) {
+                                    homeQuery.push('fromHost=' + encodeURIComponent(location.hostname || ''));
+                                    homeQuery.push('fromNid=' + encodeURIComponent(sourceNid));
+                                    homeQuery.push('refNid=' + encodeURIComponent(sourceNid));
+                                }
+                                if (distributorAlias) {
+                                    homeQuery.push('alias=' + encodeURIComponent(distributorAlias));
+                                }
+                                if (homeQuery.length) {
+                                    homeUrl += '?' + homeQuery.join('&');
+                                }
+                                wx.miniProgram.reLaunch({ url: homeUrl });
+                            } catch (err) {}
+                        };
+
+                        // 用 redirectTo 替换预览页，确保承载模板的 WebView 被销毁，
+                        // 从而停止模板外层和 iframe 内部仍在播放的音乐。
+                        wx.miniProgram.redirectTo({
+                            url: makeUrl,
+                            fail: function () {
+                                stopOuterPlayback('redirect make failed');
+                                try {
+                                    // 极少数旧客户端若不支持替换跳转，先卸载 iframe，
+                                    // 再退回 navigateTo，避免内层模板音乐继续播放。
+                                    if (myFrame) {
+                                        myFrame.removeAttribute('src');
+                                        myFrame.src = 'about:blank';
+                                        iframeInited = false;
+                                    }
+                                    wx.miniProgram.navigateTo({
+                                        url: makeUrl,
+                                        fail: function () {
+                                            fallbackJump();
+                                        }
+                                    });
+                                } catch (err) {
+                                    fallbackJump();
+                                }
+                            }
+                        });
+                    }
+                } catch (e) {}
+            };
+
+            makeBtn.addEventListener('click', handleMake);
+            makeBtn.addEventListener('touchend', handleMake, { passive: false });
+        }
+    }
+
+    function cancelFloatingControlsReveal() {
+        if (floatingControlsTimer !== null) {
+            clearTimeout(floatingControlsTimer);
+            floatingControlsTimer = null;
+        }
+    }
+
+    function concealFloatingControls() {
+        cancelFloatingControlsReveal();
+        if (document.body) {
+            document.body.classList.remove('floating-controls-ready');
+        }
+    }
+
+    function scheduleFloatingControlsReveal() {
+        concealFloatingControls();
+        if (shouldHideButtons()) return;
+
+        const reveal = function () {
+            floatingControlsTimer = null;
+            if (!shouldHideButtons() && document.body) {
+                document.body.classList.add('floating-controls-ready');
+            }
+        };
+        const remaining = Math.max(0, floatingControlsRevealAt - Date.now());
+
+        if (remaining === 0) {
+            reveal();
+            return;
+        }
+        floatingControlsTimer = setTimeout(reveal, remaining);
+    }
+
+    window.addEventListener('pagehide', cancelFloatingControlsReveal);
+
+    function showMiniProgramButtons() {
+        concealFloatingControls();
+
+        if (shouldHideButtons()) {
+            if (moreLinkBtn) moreLinkBtn.style.display = 'none';
+            if (makeLinkBtn) makeLinkBtn.style.display = 'none';
+            if (midAutumnLinkBtn) midAutumnLinkBtn.style.setProperty('display', 'none', 'important');
+            if (backBtn) backBtn.style.display = 'none';
+            if (makeBtn) makeBtn.style.display = 'none';
+            return;
+        }
+
+        ensureMiniProgramButtons();
+
+        if (moreLinkBtn) moreLinkBtn.style.display = 'none';
+        if (makeLinkBtn) makeLinkBtn.style.display = 'none';
+        if (midAutumnLinkBtn) midAutumnLinkBtn.style.setProperty('display', 'none', 'important');
+
+        if (isCleanMode()) {
+            if (backBtn) backBtn.style.display = 'none';
+            if (makeBtn) makeBtn.style.display = 'none';
+            return;
+        }
+
+        if (backBtn) backBtn.style.display = 'flex';
+
+        if (makeBtn) {
+            makeBtn.style.display = isDemoMode() ? 'none' : 'flex';
+        }
+    }
+
+    function showH5Buttons() {
+        if (shouldHideButtons()) {
+            concealFloatingControls();
+            if (moreLinkBtn) moreLinkBtn.style.display = 'none';
+            if (makeLinkBtn) makeLinkBtn.style.display = 'none';
+            if (midAutumnLinkBtn) midAutumnLinkBtn.style.setProperty('display', 'none', 'important');
+        } else {
+            if (moreLinkBtn) moreLinkBtn.style.display = 'flex';
+            if (makeLinkBtn) makeLinkBtn.style.display = 'flex';
+            if (midAutumnLinkBtn) midAutumnLinkBtn.style.setProperty('display', 'none', 'important');
+            scheduleFloatingControlsReveal();
+        }
+
+        if (backBtn) backBtn.style.display = 'none';
+        if (makeBtn) makeBtn.style.display = 'none';
+    }
+
+    function syncTemplateDataToStorage() {
+        try {
+            localStorage.setItem('templateDate', JSON.stringify(window.templateData || {}));
+        } catch (e) {}
+    }
+
+    function initOuterMusic() {
+        const td = getSafeTemplateData();
+
+        if (isTvTemplate() || isInnerAudioTemplate()) {
+            outerMusicDisabled = true;
+            outerMusicUrl = '';
+            outerVoiceUrl = '';
+            outerVideoUrl = '';
+            outerVideoMode = 'once';
+            outerVoicePlayed = false;
+            outerVoiceInProgress = false;
+            try {
+                if (music) {
+                    music.pause();
+                    music.currentTime = 0;
+                    music.removeAttribute('src');
+                    music.src = '';
+                    try { music.load(); } catch (e) {}
+                }
+            } catch (e) {}
+
+            if (musicBtn) {
+                musicBtn.style.display = 'none';
+                musicBtn.classList.remove('playing');
+            }
+            updateVideoBlessingState();
+            return;
+        }
+
+        outerMusicDisabled = false;
+
+        const voiceConfig = resolveVoiceConfig(td);
+        const videoConfig = resolveVideoConfig(td);
+        outerVoiceUrl = voiceConfig.url;
+        outerVoiceMode = voiceConfig.mode;
+        outerVoicePlayed = false;
+        outerVoiceInProgress = false;
+        outerVideoUrl = videoConfig.url;
+        outerVideoMode = videoConfig.mode;
+        outerMusicUrl = resolveMusicUrl(td);
+        if ((outerVoiceUrl && outerVoiceMode === 'loop') || (outerVideoUrl && outerVideoMode === 'loop')) {
+            outerMusicUrl = '';
+        }
+        if (!outerMusicUrl) {
+            music.removeAttribute('src');
+            music.src = '';
+            try { music.load(); } catch (e) {}
+        }
+
+        logHekaVoiceDebug('initOuterMusic');
+        updateMusicBtnState();
+        updateVideoBlessingState();
+    }
+
+    function updateMusicBtnState() {
+        if (!musicBtn) return;
+
+        if (isCleanMode()) {
+            musicBtn.style.display = 'none';
+            musicBtn.classList.remove('playing');
+            return;
+        }
+
+        if (isTvTemplate() || outerMusicDisabled) {
+            musicBtn.style.display = 'none';
+            musicBtn.classList.remove('playing');
+            return;
+        }
+
+        if (!music || (!music.src && !outerMusicUrl && !outerVoiceUrl)) {
+            musicBtn.style.display = 'none';
+            musicBtn.classList.remove('playing');
+            return;
+        }
+
+        musicBtn.style.display = 'none';
+        if (music.paused) {
+            musicBtn.classList.remove('playing');
+        } else {
+            musicBtn.classList.add('playing');
+        }
+    }
+
+    function safePlayOuterMusic() {
+        if (outerMusicDisabled || isTvTemplate()) return;
+        if (innerPrimaryMediaActive) return;
+        if (!music || (!music.src && !outerMusicUrl && !outerVoiceUrl)) return;
+
+        if (outerVoiceInProgress && outerVoiceUrl && isSameMediaUrl(music.currentSrc || music.src, outerVoiceUrl)) {
+            logHekaVoiceDebug('resumeVoiceInProgress');
+            try {
+                const resumeVoice = music.play();
+                if (resumeVoice && typeof resumeVoice.catch === 'function') {
+                    resumeVoice.catch(() => {});
+                }
+            } catch (e) {}
+            updateMusicBtnState();
+            return;
+        }
+
+        const retryPlayOnce = function () {
+            if (innerPrimaryMediaActive) return;
+            try {
+                const retry = music.play();
+                if (retry && typeof retry.catch === 'function') {
+                    retry.catch(() => {});
+                }
+            } catch (e) {}
+            updateMusicBtnState();
+        };
+
+        const playUrl = function (url, loop) {
+            if (!url) return null;
+            if (music.src !== url) {
+                music.src = url;
+                try { music.load(); } catch (e) {}
+            }
+            music.volume = 1;
+            music.loop = !!loop;
+            logHekaVoiceDebug('playUrl', {
+                playUrl: url,
+                playLoop: !!loop
+            });
+            return music.play();
+        };
+
+        try {
+            if (outerVoiceUrl && outerVoiceMode === 'loop') {
+                const voiceLoop = playUrl(outerVoiceUrl, true);
+                if (voiceLoop && typeof voiceLoop.catch === 'function') {
+                    voiceLoop.catch(() => {
+                        try {
+                            music.addEventListener('canplay', retryPlayOnce, { once: true });
+                            music.load();
+                        } catch (e) {}
+                    });
+                }
+                updateMusicBtnState();
+                return;
+            }
+
+            if (outerVoiceUrl && !outerVoicePlayed) {
+                outerVoiceInProgress = true;
+                music.onended = function () {
+                    music.onended = null;
+                    outerVoiceInProgress = false;
+                    logHekaVoiceDebug('voiceEndedBeforeBg');
+                    if (outerMusicUrl) {
+                        try {
+                            const bg = playUrl(outerMusicUrl, true);
+                            if (bg && typeof bg.catch === 'function') bg.catch(() => {});
+                        } catch (e) {}
+                    }
+                    updateMusicBtnState();
+                };
+                const voiceOnce = playUrl(outerVoiceUrl, false);
+                if (voiceOnce && typeof voiceOnce.catch === 'function') {
+                    voiceOnce.catch(() => {
+                        outerVoiceInProgress = false;
+                        logHekaVoiceDebug('voicePlayRejected', {
+                            reason: 'promise-rejected'
+                        });
+                        try {
+                            music.addEventListener('canplay', retryPlayOnce, { once: true });
+                            music.load();
+                        } catch (e) {}
+                    });
+                }
+                updateMusicBtnState();
+                return;
+            }
+
+            const p = playUrl(outerMusicUrl, true);
+            if (p && typeof p.catch === 'function') {
+                p.catch(() => {
+                    logHekaVoiceDebug('musicPlayRejected', {
+                        reason: 'promise-rejected'
+                    });
+                    try {
+                        music.addEventListener('canplay', retryPlayOnce, { once: true });
+                        music.load();
+                    } catch (e) {}
+                });
+            }
+        } catch (e) {}
+        updateMusicBtnState();
+    }
+
+    function safePauseOuterMusic() {
+        if (!music) return;
+        try { music.pause(); } catch (e) {}
+        updateMusicBtnState();
+    }
+
+    function isInnerPrimaryMedia(player) {
+        if (!player || !player.tagName) return false;
+        const tagName = String(player.tagName).toLowerCase();
+        const mediaUrl = getUsableInnerMediaUrl(player);
+        if ((tagName === 'audio' || tagName === 'video') && !mediaUrl) {
+            return false;
+        }
+        // 模板可能用一次性 audio 播放与外层相同的歌曲，也必须暂停外层播放器。
+        if (tagName === 'audio' && isSameMediaUrl(mediaUrl, outerMusicUrl)) {
+            return true;
+        }
+        const hint = [
+            player.id,
+            player.className,
+            player.getAttribute && player.getAttribute('name'),
+            player.getAttribute && player.getAttribute('data-role'),
+            player.getAttribute && player.getAttribute('aria-label')
+        ].map(function (value) { return String(value || ''); }).join(' ').toLowerCase();
+        const looksLikeMusic = /(^|[^a-z0-9])(bgm|music|soundtrack|background[-_ ]?(music|audio))([^a-z0-9]|$)/.test(hint);
+
+        if (tagName === 'audio') return !!player.loop || looksLikeMusic;
+        if (tagName === 'video') return !player.muted && looksLikeMusic;
+        return false;
+    }
+
+    function refreshInnerPrimaryMediaState() {
+        innerPrimaryMediaPlayers.forEach(function (player) {
+            try {
+                if (!player || !player.isConnected || player.paused || player.ended) {
+                    innerPrimaryMediaPlayers.delete(player);
+                }
+            } catch (e) {
+                innerPrimaryMediaPlayers.delete(player);
+            }
+        });
+        innerPrimaryMediaActive = innerPrimaryMediaPlayers.size > 0;
+    }
+
+    function bindIframePrimaryMediaGuard() {
+        if (!myFrame) return;
+
+        let frameDocument = null;
+        try {
+            frameDocument = myFrame.contentDocument || (myFrame.contentWindow && myFrame.contentWindow.document);
+        } catch (e) {
+            return;
+        }
+        if (!frameDocument || frameDocument.__hekaPrimaryMediaGuardBound) return;
+        frameDocument.__hekaPrimaryMediaGuardBound = true;
+        innerPrimaryMediaPlayers.clear();
+        innerPrimaryMediaActive = false;
+
+        const handlePlay = function (event) {
+            const player = event && event.target;
+            if (!isInnerPrimaryMedia(player)) return;
+            innerPrimaryMediaPlayers.add(player);
+            innerPrimaryMediaActive = true;
+            safePauseOuterMusic();
+            logHekaVoiceDebug('innerPrimaryMedia:play', {
+                innerTag: String(player.tagName || '').toLowerCase(),
+                innerId: player.id || ''
+            });
+        };
+        const handleStop = function (event) {
+            const player = event && event.target;
+            if (!player || (!innerPrimaryMediaPlayers.has(player) && !isInnerPrimaryMedia(player))) return;
+            const wasActive = innerPrimaryMediaPlayers.has(player);
+            innerPrimaryMediaPlayers.delete(player);
+            refreshInnerPrimaryMediaState();
+            if (wasActive && !innerPrimaryMediaActive && outerMusicUrl) {
+                safePlayOuterMusic();
+            }
+        };
+
+        frameDocument.addEventListener('play', handlePlay, true);
+        frameDocument.addEventListener('pause', handleStop, true);
+        frameDocument.addEventListener('ended', handleStop, true);
+        frameDocument.addEventListener('emptied', handleStop, true);
+        frameDocument.addEventListener('error', handleStop, true);
+        frameDocument.addEventListener('abort', handleStop, true);
+
+        try {
+            frameDocument.querySelectorAll('audio,video').forEach(function (player) {
+                if (isInnerPrimaryMedia(player) && !player.paused && !player.ended) {
+                    handlePlay({ target: player });
+                }
+            });
+        } catch (e) {}
+    }
+
+    function updateVideoBlessingState() {
+        if (!videoBlessingBtn) return;
+        videoBlessingBtn.style.display = outerVideoUrl ? 'flex' : 'none';
+    }
+
+    function bindVideoBlessing() {
+        if (!videoBlessingBtn || !videoBlessingMask || !videoBlessingPlayer) return;
+
+        videoBlessingBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!outerVideoUrl) return;
+            safePauseOuterMusic();
+            videoBlessingPlayer.src = outerVideoUrl;
+            videoBlessingMask.style.display = 'flex';
+            try {
+                const playTask = videoBlessingPlayer.play();
+                if (playTask && typeof playTask.catch === 'function') playTask.catch(() => {});
+            } catch (err) {}
+        });
+
+        const closeVideo = function () {
+            try { videoBlessingPlayer.pause(); } catch (err) {}
+            videoBlessingPlayer.removeAttribute('src');
+            try { videoBlessingPlayer.load(); } catch (err) {}
+            videoBlessingMask.style.display = 'none';
+        };
+
+        if (videoBlessingClose) {
+            videoBlessingClose.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeVideo();
+            });
+        }
+
+        videoBlessingMask.addEventListener('click', function (e) {
+            if (e.target === videoBlessingMask) closeVideo();
+        });
+
+        videoBlessingPlayer.addEventListener('ended', function () {
+            if (outerVideoMode !== 'loop') {
+                closeVideo();
+                if (outerMusicUrl) safePlayOuterMusic();
+            } else {
+                try {
+                    videoBlessingPlayer.currentTime = 0;
+                    videoBlessingPlayer.play();
+                } catch (err) {}
+            }
+        });
+    }
+
+    function stopOuterPlayback(reason) {
+        try { console.log('[template] stop playback:', reason || ''); } catch (e) {}
+        safePauseOuterMusic();
+        try {
+            document.querySelectorAll('audio,video').forEach(function (el) {
+                try { el.pause(); } catch (e) {}
+            });
+        } catch (e) {}
+        try {
+            if (myFrame && myFrame.contentWindow) {
+                postMessageToTemplate('pauseMusic');
+                postMessageToTemplate('innerPauseMusic');
+                postMessageToTemplate({ type: 'pauseMusic' });
+                postMessageToTemplate({ type: 'innerPauseMusic' });
+            }
+        } catch (e) {}
+    }
+
+    function finishOpenAction() {
+        if (openActionCompleted) return;
+        openActionCompleted = true;
+        barrage3dOpenPending = false;
+        if (barrage3dOpenFallbackTimer) {
+            clearTimeout(barrage3dOpenFallbackTimer);
+            barrage3dOpenFallbackTimer = null;
+        }
+
+        const openBox = document.querySelector('.open-box');
+
+        if (openBox) {
+            openBox.style.pointerEvents = 'none';
+            openBox.style.transition = 'opacity .28s ease';
+            openBox.style.opacity = '0';
+            setTimeout(function () {
+                openBox.style.display = 'none';
+                openBox.style.visibility = 'hidden';
+            }, 300);
+        }
+
+        if (!isTvTemplate()) {
+            safePlayOuterMusic();
+            templateOpenRequested = true;
+
+            setTimeout(() => {
+                if (myFrame && myFrame.contentWindow) {
+                    try {
+                        sendTemplateOpenSignal();
+                        scheduleTemplateReadyProbe();
+                    } catch (e) {}
+                }
+            }, 120);
+            return;
+        }
+
+        if (myFrame && myFrame.contentWindow) {
+            try {
+                postMessageToTemplate({
+                    type: 'outerReady',
+                    data: getSafeTemplateData()
+                });
+            } catch (e) {}
+        }
+    }
+
+    function triggerOpenAction() {
+        if (openActionCompleted || barrage3dOpenPending) return;
+
+        // Start audio inside the actual user gesture. The visual cover may remain briefly
+        // while the 3D model and font finish preparing behind it.
+        if (!isTvTemplate()) safePlayOuterMusic();
+
+        if (isBarrage3dTemplate() && !barrage3dReady) {
+            postMessageToTemplate({ type: 'barrage3dReadyRequest' });
+            barrage3dOpenPending = true;
+            const openBox = document.querySelector('.open-box');
+            if (openBox) {
+                openBox.style.pointerEvents = 'none';
+                const message = openBox.querySelector('p');
+                if (message) message.textContent = '正在打开，请稍候…';
+            }
+            barrage3dOpenFallbackTimer = setTimeout(finishOpenAction, 8000);
+            return;
+        }
+
+        finishOpenAction();
+    }
+
+    function bindOpenBtn() {
+        const openBtn = document.getElementById('openBtn');
+        const openBox = document.querySelector('.open-box');
+
+        if (openBtn) {
+            const handleUserOpen = function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                triggerOpenAction();
+            };
+
+            openBtn.addEventListener('click', handleUserOpen, true);
+            openBtn.addEventListener('touchstart', handleUserOpen, { passive: false, capture: true });
+            openBtn.addEventListener('touchend', handleUserOpen, { passive: false, capture: true });
+        }
+
+        if (openBox) {
+            openBox.addEventListener('click', function (e) {
+                if (e.target === openBox) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    triggerOpenAction();
+                }
+            });
+        }
+
+        document.addEventListener('click', function (e) {
+            const btn = e.target && e.target.closest ? e.target.closest('#openBtn') : null;
+            if (btn) {
+                e.preventDefault();
+                e.stopPropagation();
+                triggerOpenAction();
+            }
+        });
+    }
+
+    function bindH5MakeLink() {
+        if (!makeLinkBtn) return;
+
+        makeLinkBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!window.templateData || !window.templateData.jump_make) return;
+            stopOuterPlayback('h5 make link');
+
+            const jumpByScheme = function () {
+                const targetMakeAppid = pickMakeLinkAppid();
+                location.href = withMiniProgramSource(window.templateData.jump_make, targetMakeAppid);
+            };
+
+            if (!shouldUseMiniProgramInternalMake()) {
+                jumpByScheme();
+                return;
+            }
+
+            if (typeof wx !== 'undefined' && wx.miniProgram && typeof wx.miniProgram.getEnv === 'function') {
+                let envChecked = false;
+                const finishByEnv = function (isMiniProgram) {
+                    if (envChecked) return;
+                    envChecked = true;
+
+                    if (isMiniProgram) {
+                        ensureMiniProgramButtons();
+                        if (makeBtn && typeof makeBtn.click === 'function') {
+                            makeBtn.click();
+                        }
+                        return;
+                    }
+
+                    jumpByScheme();
+                };
+
+                const envTimer = setTimeout(function () {
+                    finishByEnv(forceMiniProgramView || hasMiniProgramRuntimeFlag());
+                }, 600);
+
+                wx.miniProgram.getEnv(function (res) {
+                    clearTimeout(envTimer);
+                    finishByEnv(!!(res && res.miniprogram));
+                });
+                return;
+            }
+
+            if (hasMiniProgramRuntimeFlag()) {
+                ensureMiniProgramButtons();
+                if (makeBtn && typeof makeBtn.click === 'function') {
+                    makeBtn.click();
+                }
+                return;
+            }
+
+            jumpByScheme();
+        });
+    }
+
+    function bindMusicBtn() {
+        if (!musicBtn || !music) return;
+
+        musicBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (outerMusicDisabled || isTvTemplate()) return;
+            if (!music.src && !outerMusicUrl && !outerVoiceUrl) return;
+
+            if (music.paused) {
+                safePlayOuterMusic();
+            } else {
+                safePauseOuterMusic();
+            }
+        });
+
+        music.addEventListener('play', updateMusicBtnState);
+        music.addEventListener('pause', updateMusicBtnState);
+        music.addEventListener('ended', updateMusicBtnState);
+    }
+
+    function getPageViewVisitorId() {
+        const storageKey = 'page_view_visitor_id_v1';
+        try {
+            let visitorId = localStorage.getItem(storageKey) || '';
+            if (/^[A-Za-z0-9_-]{12,80}$/.test(visitorId)) return visitorId;
+
+            if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+                visitorId = 'pv_' + window.crypto.randomUUID().replace(/-/g, '');
+            } else {
+                visitorId = 'pv_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 18);
+            }
+            localStorage.setItem(storageKey, visitorId);
+            return visitorId;
+        } catch (e) {
+            return '';
+        }
+    }
+
+    function reportPageView(nid) {
+        if (!nid) return;
+        if (Number((window.templateData || {}).pageViewStatsEnabled || 0) !== 1) return;
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+        const visitorId = getPageViewVisitorId();
+
+        fetch(`/api/addView?nid=${encodeURIComponent(nid)}`, {
+            method: 'GET',
+            headers: visitorId ? {'X-Page-Visitor': visitorId} : {},
+            signal: controller.signal
+        })
+        .then(res => res.json())
+        .then(res => {
+            clearTimeout(timeoutId);
+
+            if (res.code === 200 && typeof res.views === 'number') {
+                window.templateData.views = res.views;
+                syncTemplateDataToStorage();
+
+                if (myFrame && myFrame.contentWindow) {
+                    postMessageToTemplate({
+                        type: 'updateViews',
+                        views: res.views
+                    });
+                }
+            }
+        })
+        .catch(() => {
+            clearTimeout(timeoutId);
+        });
+    }
+
+    function postTemplateDataToIframe() {
+        if (!myFrame || !myFrame.contentWindow) return;
+        try {
+            postMessageToTemplate({
+                type: 'templateData',
+                data: window.templateData || {}
+            });
+        } catch (e) {}
+    }
+
+    function bindIframeLoad() {
+        if (!myFrame) return;
+
+        myFrame.addEventListener('load', function () {
+            templateFrameReady = false;
+            bindIframePrimaryMediaGuard();
+            syncTemplateDataToStorage();
+            postTemplateDataToIframe();
+            scheduleTemplateReadyProbe();
+            if (templateOpenRequested) {
+                sendTemplateOpenSignal();
+            }
+            if (isBarrage3dTemplate()) {
+                postMessageToTemplate({ type: 'barrage3dReadyRequest' });
+            }
+        });
+        setTimeout(bindIframePrimaryMediaGuard, 0);
+        setTimeout(bindIframePrimaryMediaGuard, 500);
+    }
+
+    function bindMessageBridge() {
+        window.addEventListener('message', function (event) {
+            if (!isMessageFromTemplate(event)) return;
+            const msg = event.data;
+            if (!msg) return;
+
+            if (typeof msg === 'object') {
+                if (msg.type === 'templateReady') {
+                    templateFrameReady = true;
+                    clearTemplateReadyProbes();
+                    postTemplateDataToIframe();
+                    if (templateOpenRequested) {
+                        sendTemplateOpenSignal();
+                    }
+                    return;
+                }
+
+                if (msg.type === 'barrage3dReady') {
+                    barrage3dReady = true;
+                    if (barrage3dOpenPending) finishOpenAction();
+                    return;
+                }
+
+                const requestedMusic = firstNotEmpty([
+                    msg.music,
+                    msg.musicUrl,
+                    msg.music_url
+                ]);
+                if (requestedMusic) {
+                    outerMusicDisabled = false;
+                    outerMusicUrl = String(requestedMusic).trim();
+                }
+
+            }
+
+            if (msg === 'requestTemplateData') {
+                postTemplateDataToIframe();
+                return;
+            }
+
+            if (
+                msg === 'triggerOpen' ||
+                msg === 'innerUserOpenPlayMusic' ||
+                msg === 'innerAutoPlayMusic' ||
+                msg === 'retryOuterMusic' ||
+                msg === 'playOuterMusic'
+            ) {
+                safePlayOuterMusic();
+                return;
+            }
+
+            if (typeof msg === 'object') {
+                if (msg.type === 'requestTemplateData') {
+                    postTemplateDataToIframe();
+                    return;
+                }
+
+                if (
+                    msg.type === 'triggerOpen' ||
+                    msg.type === 'innerUserOpenPlayMusic' ||
+                    msg.type === 'innerAutoPlayMusic' ||
+                    msg.type === 'showBtn' ||
+                    msg.type === 'retryOuterMusic' ||
+                    msg.type === 'playOuterMusic'
+                ) {
+                    safePlayOuterMusic();
+                    try {
+                        if (typeof WeixinJSBridge !== 'undefined') {
+                            WeixinJSBridge.invoke('getNetworkType', {}, safePlayOuterMusic);
+                        }
+                    } catch (e) {}
+                    return;
+                }
+
+                if (msg.type === 'syncStorage') {
+                    syncTemplateDataToStorage();
+                    return;
+                }
+            }
+        });
+        if (isBarrage3dTemplate()) {
+            postMessageToTemplate({ type: 'barrage3dReadyRequest' });
+        }
+        scheduleTemplateReadyProbe();
+    }
+
+    function bindPlaybackLifecycle() {
+        if (music && !music.__hekaDebugBound) {
+            music.__hekaDebugBound = true;
+            music.addEventListener('play', function () {
+                if (innerPrimaryMediaActive) {
+                    try { music.pause(); } catch (e) {}
+                    updateMusicBtnState();
+                    return;
+                }
+                if (outerVoiceUrl && isSameMediaUrl(music.currentSrc || music.src, outerVoiceUrl)) {
+                    outerVoicePlayed = true;
+                    outerVoiceInProgress = true;
+                }
+                logHekaVoiceDebug('audioEvent:play');
+            });
+            music.addEventListener('pause', function () {
+                logHekaVoiceDebug('audioEvent:pause');
+            });
+            music.addEventListener('ended', function () {
+                if (outerVoiceUrl && isSameMediaUrl(music.currentSrc || music.src, outerVoiceUrl)) {
+                    outerVoiceInProgress = false;
+                }
+                logHekaVoiceDebug('audioEvent:ended');
+            });
+            music.addEventListener('error', function () {
+                let code = '';
+                try {
+                    code = music.error && music.error.code;
+                } catch (e) {}
+                if (outerVoiceUrl && isSameMediaUrl(music.currentSrc || music.src, outerVoiceUrl)) {
+                    outerVoiceInProgress = false;
+                }
+                logHekaVoiceDebug('audioEvent:error', {
+                    audioErrorCode: code
+                });
+            });
+            music.addEventListener('loadedmetadata', function () {
+                logHekaVoiceDebug('audioEvent:loadedmetadata', {
+                    duration: music.duration
+                });
+            });
+            music.addEventListener('canplay', function () {
+                logHekaVoiceDebug('audioEvent:canplay');
+            });
+        }
+
+        window.addEventListener('pagehide', function () {
+            stopOuterPlayback('pagehide');
+        });
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                stopOuterPlayback('visibility hidden');
+            }
+        });
+    }
+
+    function isOuterMusicPlaying() {
+        return !!(music && !music.paused && !music.ended);
+    }
+
+    function isOuterOpenPending() {
+        const openBox = document.querySelector('.open-box');
+        if (!openBox) return false;
+        const style = window.getComputedStyle(openBox);
+        return style.display !== 'none'
+            && style.visibility !== 'hidden'
+            && Number(style.opacity || 1) !== 0;
+    }
+
+    function tryForceOuterAutoPlay() {
+        if (outerMusicDisabled || isTvTemplate()) return;
+        if (innerPrimaryMediaActive) return;
+        if (isOuterOpenPending()) return;
+        if (!outerMusicUrl && !outerVoiceUrl) return;
+        if (isOuterMusicPlaying()) return;
+        safePlayOuterMusic();
+    }
+
+    function bindWeChatForceAutoPlay() {
+        const run = function () {
+            tryForceOuterAutoPlay();
+            setTimeout(function () {
+                if (!isOuterMusicPlaying()) tryForceOuterAutoPlay();
+            }, 500);
+        };
+
+        try {
+            if (typeof wx !== 'undefined' && wx.ready) {
+                wx.ready(run);
+            }
+        } catch (e) {}
+
+        try {
+            if (typeof WeixinJSBridge !== 'undefined') {
+                WeixinJSBridge.invoke('getNetworkType', {}, run);
+            } else {
+                document.addEventListener('WeixinJSBridgeReady', function () {
+                    try {
+                        WeixinJSBridge.invoke('getNetworkType', {}, run);
+                    } catch (e) {
+                        run();
+                    }
+                }, false);
+            }
+        } catch (e) {}
+
+        window.addEventListener('pageshow', run);
+        setTimeout(run, 100);
+        setTimeout(run, 500);
+        setTimeout(run, 1500);
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        enforceDemoHiddenButtons();
+        syncTemplateDataToStorage();
+        initOuterMusic();
+        bindIframeLoad();
+        bindMessageBridge();
+        bindPlaybackLifecycle();
+        initIframe();
+        bindOpenBtn();
+        replayEarlyMeteorOpen?.(triggerOpenAction);
+        bindH5MakeLink();
+        bindMusicBtn();
+        bindVideoBlessing();
+        bindWeChatForceAutoPlay();
+
+        const inMiniProgramEnv = await detectMiniProgramEnv();
+
+        if (inMiniProgramEnv) {
+            showMiniProgramButtons();
+        } else {
+            showH5Buttons();
+        }
+
+        if (window.templateData && window.templateData.nid) {
+            reportPageView(window.templateData.nid);
+        }
+    });
+</script>
+
+<script>
+    let host = window.location.hostname;
+    var _hmt = _hmt || [];
+    (function() {
+        var tid = "530cca224da9770059b6caf6aa908556";
+        if (host.startsWith('wechat.3') || host.startsWith('60')) {
+            tid = "530cca224da9770059b6caf6aa908556";
+        }
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + tid;
+        document.head.appendChild(hm);
+    })();
+</script>
+<script>
+(function () {
+  var badPart = "v2-00f1d7c256cb394ec9e9510995cbf17e.jpeg";
+  var good = "https://web.pp5.top/template/images/latter.jpg";
+
+  function fix() {
+    var img = document.querySelector('#openBtn img');
+    if (!img) return;
+    var src = img.getAttribute('src') || '';
+    if (src.indexOf(badPart) !== -1) {
+      img.setAttribute('src', good);
+      img.src = good;
+    }
+    img.onerror = function () { this.src = good; };
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fix);
+  } else {
+    fix();
+  }
+  setTimeout(fix, 300);
+})();
+</script>
+
+</body>
+</html>
