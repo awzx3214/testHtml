@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Web Bluetooth 测试台</title>
+<style>
+  :root {
+    --bg: #0f1216;
+    --card: #171c22;
+    --card2: #1e252d;
+    --line: #2a333d;
+    --text: #e6edf3;
+    --muted: #8b98a5;
+    --accent: #2f81f7;
+    --ok: #3fb950;
+    --warn: #d29922;
+    --err: #f85149;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; padding: 14px 14px 40px;
+    background: var(--bg); color: var(--text);
+    font: 15px/1.5 -apple-system, "Roboto", "Helvetica Neue", "PingFang SC", sans-serif;
+  }
+  h1 { font-size: 19px; margin: 4px 0 2px; }
+  .sub { color: var(--muted); font-size: 12.5px; margin: 0 0 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px; margin-bottom: 12px;
+  }
+  .card h2 {
+    font-size: 13px; font-weight: 600; color: var(--muted);
+    margin: 0 0 10px; letter-spacing: .04em; text-transform: uppercase;
+  }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  button {
+    flex: 1 1 auto; min-width: 96px; padding: 11px 12px;
+    border-radius: 10px; border: 1px solid transparent;
+    background: var(--accent); color: #fff; font-size: 14px; font-weight: 600;
+    font-family: inherit;
+  }
+  button:active { opacity: .75; }
+  button:disabled { opacity: .38; }
+  button.ghost { background: var(--card2); color: var(--text); border-color: var(--line); }
+  button.danger { background: #3d1d1f; color: #ff9b95; border-color: #5b2a2c; }
+  label { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
+  input {
+    width: 100%; padding: 9px 10px; border-radius: 8px;
+    border: 1px solid var(--line); background: #0d1117; color: var(--text);
+    font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .kv { display: flex; justify-content: space-between; gap: 10px; font-size: 13.5px; padding: 3px 0; }
+  .kv span:first-child { color: var(--muted); }
+  #log {
+    margin: 0; padding: 10px; min-height: 180px; max-height: 46vh; overflow: auto;
+    background: #0b0e12; border: 1px solid var(--line); border-radius: 10px;
+    font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace;
+    white-space: pre-wrap; word-break: break-all; color: #c9d1d9;
+  }
+  .t-ok { color: var(--ok); }
+  .t-err { color: var(--err); }
+  .t-warn { color: var(--warn); }
+  .t-dim { color: var(--muted); }
+  .badge {
+    display: inline-block; padding: 1px 7px; border-radius: 999px;
+    font-size: 11px; background: #21262d; color: var(--muted); border: 1px solid var(--line);
+  }
+  .badge.on { background: #12331d; color: #56d364; border-color: #1f4a2c; }
+</style>
+<!-- 内置页直接引用垫片，保证在页面脚本之前执行；
+     第三方页面则依靠 MainActivity 的 evaluateJavascript 注入（脚本幂等）。 -->
+<script src="webbluetooth.js"></script>
+</head>
+<body>
+
+<h1>Web Bluetooth 测试台</h1>
+<p class="sub">本页面只使用标准 <code>navigator.bluetooth</code> API，没有调用任何私有接口。</p>
+
+<div class="card">
+  <h2>设备</h2>
+  <div class="kv"><span>状态</span><span id="state" class="badge">未连接</span></div>
+  <div class="kv"><span>设备名</span><span id="devName">—</span></div>
+  <div class="kv"><span>设备 ID</span><span id="devId">—</span></div>
+  <div class="row" style="margin-top:12px">
+    <button id="btnScan">扫描并连接</button>
+    <button id="btnDisconnect" class="danger" disabled>断开</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>GATT 操作</h2>
+  <label>服务 UUID</label>
+  <input id="svc" value="0000180d-0000-1000-8000-00805f9b34fb">
+  <label>特征值 UUID</label>
+  <input id="chr" value="00002a37-0000-1000-8000-00805f9b34fb">
+  <label>写入数据（十六进制，如 01ff）</label>
+  <input id="payload" value="01">
+
+  <div class="row" style="margin-top:12px">
+    <button id="btnRead" class="ghost" disabled>读取</button>
+    <button id="btnNotify" class="ghost" disabled>订阅通知</button>
+    <button id="btnUnnotify" class="ghost" disabled>取消订阅</button>
+  </div>
+  <div class="row" style="margin-top:8px">
+    <button id="btnWrite" class="ghost" disabled>写入</button>
+    <button id="btnWriteNR" class="ghost" disabled>无响应写入</button>
+    <button id="btnDump" class="ghost" disabled>列出全部服务</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>日志</h2>
+  <pre id="log"></pre>
+</div>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const logEl = $('log');
+  let device = null;
+  let characteristic = null;
+
+  function log(msg, cls) {
+    const t = new Date().toTimeString().slice(0, 8);
+    const line = document.createElement('div');
+    line.className = cls || '';
+    line.textContent = '[' + t + '] ' + msg;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function hex(view) {
+    if (!view) return '(空)';
+    const b = new Uint8Array(view.buffer, view.byteOffset, view.byteLength);
+    return Array.from(b).map((x) => x.toString(16).padStart(2, '0')).join(' ');
+  }
+
+  function setConnected(on) {
+    $('state').textContent = on ? '已连接' : '未连接';
+    $('state').className = 'badge' + (on ? ' on' : '');
+    ['btnRead', 'btnNotify', 'btnUnnotify', 'btnWrite', 'btnWriteNR', 'btnDump'].forEach((id) => {
+      $(id).disabled = !on;
+    });
+    $('btnDisconnect').disabled = !on;
+    $('btnScan').disabled = on;
+  }
+
+  function parseHex(str) {
+    const clean = String(str || '').replace(/[^0-9a-fA-F]/g, '');
+    if (clean.length % 2 !== 0) throw new Error('十六进制长度必须是偶数');
+    const out = new Uint8Array(clean.length / 2);
+    for (let i = 0; i < out.length; i++) out[i] = parseInt(clean.substr(i * 2, 2), 16);
+    return out;
+  }
+
+  function getChar() {
+    if (!characteristic) throw new Error('请先「读取」或「订阅通知」以获取特征值对象');
+    return characteristic;
+  }
+
+  async function resolveCharacteristic() {
+    const service = await device.gatt.getPrimaryService($('svc').value.trim());
+    return service.getCharacteristic($('chr').value.trim());
+  }
+
+  /* ------------------------------------------------------------ 连接 */
+
+  $('btnScan').onclick = async () => {
+    try {
+      if (!navigator.bluetooth) {
+        log('navigator.bluetooth 不存在，说明垫片未注入', 't-err');
+        return;
+      }
+      log('请求设备（会弹出原生设备选择框）…', 't-dim');
+      device = await navigator.bluetooth.requestDevice({
+        acceptAllDevices: true,
+        optionalServices: [
+          $('svc').value.trim(),
+          '0000180d-0000-1000-8000-00805f9b34fb',
+          '0000180a-0000-1000-8000-00805f9b34fb',
+          '0000180f-0000-1000-8000-00805f9b34fb',
+          '0000fff0-0000-1000-8000-00805f9b34fb',
+          '6e400001-b5a3-f393-e0a9-e50e24dcca9e'
+        ]
+      });
+      log('已选择：' + (device.name || '(未命名)') + ' / ' + device.id, 't-ok');
+      $('devName').textContent = device.name || '(未命名)';
+      $('devId').textContent = device.id;
+
+      device.addEventListener('gattserverdisconnected', () => {
+        log('设备已断开 (gattserverdisconnected)', 't-warn');
+        characteristic = null;
+        setConnected(false);
+      });
+
+      log('连接 GATT…', 't-dim');
+      await device.gatt.connect();
+      log('GATT 已连接', 't-ok');
+      setConnected(true);
+    } catch (err) {
+      log('失败：' + err.name + ' - ' + err.message, 't-err');
+    }
+  };
+
+  $('btnDisconnect').onclick = () => {
+    if (device && device.gatt.connected) {
+      device.gatt.disconnect();
+      log('已主动断开', 't-warn');
+    }
+    setConnected(false);
+  };
+
+  /* ------------------------------------------------------------ 读写 */
+
+  $('btnRead').onclick = async () => {
+    try {
+      characteristic = await resolveCharacteristic();
+      const value = await characteristic.readValue();
+      log('读取 ' + characteristic.uuid + ' → ' + hex(value), 't-ok');
+    } catch (err) {
+      log('读取失败：' + err.name + ' - ' + err.message, 't-err');
+    }
+  };
+
+  $('btnWrite').onclick = () => doWrite(false);
+  $('btnWriteNR').onclick = () => doWrite(true);
+
+  async function doWrite(withoutResponse) {
+    try {
+      if (!characteristic) characteristic = await resolveCharacteristic();
+      const bytes = parseHex($('payload').value);
+      if (withoutResponse) {
+        await characteristic.writeValueWithoutResponse(bytes);
+      } else {
+        await characteristic.writeValueWithResponse(bytes);
+      }
+      log((withoutResponse ? '无响应写入 ' : '写入 ') + hex(bytes.buffer) + ' 完成', 't-ok');
+    } catch (err) {
+      log('写入失败：' + err.name + ' - ' + err.message, 't-err');
+    }
+  }
+
+  /* ------------------------------------------------------------ 通知 */
+
+  $('btnNotify').onclick = async () => {
+    try {
+      characteristic = await resolveCharacteristic();
+      characteristic.addEventListener('characteristicvaluechanged', (e) => {
+        log('通知 ← ' + hex(e.target.value), 't-ok');
+      });
+      await characteristic.startNotifications();
+      log('已订阅 ' + characteristic.uuid, 't-ok');
+    } catch (err) {
+      log('订阅失败：' + err.name + ' - ' + err.message, 't-err');
+    }
+  };
+
+  $('btnUnnotify').onclick = async () => {
+    try {
+      await getChar().stopNotifications();
+      log('已取消订阅', 't-warn');
+    } catch (err) {
+      log('取消订阅失败：' + err.name + ' - ' + err.message, 't-err');
+    }
+  };
+
+  /* -------------------------------------------------------- 遍历服务 */
+
+  $('btnDump').onclick = async () => {
+    try {
+      const services = await device.gatt.getPrimaryServices();
+      log('共 ' + services.length + ' 个主服务：', 't-dim');
+      for (const s of services) {
+        const chars = await s.getCharacteristics();
+        log('  ▸ ' + s.uuid + '  (' + chars.length + ' 个特征)', 't-dim');
+        for (const c of chars) {
+          const p = Object.keys(c.properties).filter((k) => c.properties[k]).join(',');
+          log('      · ' + c.uuid + '  [' + p + ']');
+        }
+      }
+    } catch (err) {
+      log('遍历失败：' + err.name + ' - ' + err.message, 't-err');
+    }
+  };
+
+  /* ------------------------------------------------------------ 启动 */
+
+  if (navigator.bluetooth) {
+    log('垫片就绪，navigator.bluetooth 可用', 't-ok');
+    navigator.bluetooth.getAvailability().then((ok) => log('蓝牙可用性：' + ok, 't-dim'));
+  } else {
+    log('未检测到 navigator.bluetooth —— 请确认页面由本 App 打开', 't-err');
+  }
+})();
+</script>
+</body>
+</html>
